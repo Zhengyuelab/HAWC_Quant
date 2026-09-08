@@ -1,0 +1,26 @@
+[build-system]
+requires = ["setuptools>=68", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "hawcquant"
+version = "0.2.1"
+description = "One-stop HAWC quantitative transcriptome calibration workflow for target/reference mixed RNA-seq experiments"
+readme = "README.md"
+requires-python = ">=3.10"
+license = {text = "MIT"}
+authors = [{name = "HAWCQuant contributors"}]
+keywords = ["RNA-seq", "metatranscriptomics", "quantitative transcriptomics", "calibration", "OrthoFinder", "featureCounts", "HTSeq"]
+dependencies = [
+  "pandas>=1.5",
+  "numpy>=1.23",
+  "pyyaml>=6.0",
+  "matplotlib>=3.6"
+]
+
+[project.scripts]
+hawcquant = "hawcquant.cli:main"
+
+[tool.setuptools.packages.find]
+where = ["."]
+include = ["hawcquant*"]

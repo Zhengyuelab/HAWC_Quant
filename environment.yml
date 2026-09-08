@@ -1,0 +1,25 @@
+name: hawcquant
+channels:
+  - conda-forge
+  - bioconda
+  - defaults
+dependencies:
+  - python>=3.10
+  - pandas>=1.5
+  - numpy>=1.23
+  - pyyaml>=6.0
+  - matplotlib>=3.6
+  - fastp=1.3.2
+  - bowtie2
+  - samtools
+  - htseq
+  - subread
+  - orthofinder
+  - diamond
+  - blast
+  - bioconductor-deseq2
+  - r-base
+  - perl
+  - pip
+  - pip:
+      - -e .
