@@ -4,16 +4,6 @@ HAWCQuant is a one-stop, configuration-driven workflow for quantitative transcri
 
 The workflow supports quality control with fastp, alignment with bowtie2, optional PCR duplicate removal with samtools, gene-level counting with either htseq-count or featureCounts, species-specific gene discovery with OrthoFinder using either DIAMOND or BLASTP-style search, slope-based count calibration, CPM/TPM-like expression normalization, and optional DESeq2 differential analysis.
 
-## Major changes in HAWCQuant v0.2.1
-
-- Project name changed from `eginquant` to `hawcquant`.
-- Python package changed from `eginquant` to `hawcquant`.
-- Main command changed from `eginquant` to `hawcquant`.
-- OrthoFinder search backend now accepts `diamond`, `blastp`, `blast`, or `mmseqs`.
-- Counting backend now accepts `htseq` or `featureCounts`.
-- Conda environment pins `fastp=1.3.2`.
-- Replicate normalization now supports both replicated and no-replicate designs.
-- `replicate_groups: auto` can infer groups from `samples.tsv`; single-sample groups are skipped automatically.
 
 ## Installation
 
@@ -228,40 +218,6 @@ results/
     calibrated_TPM.tsv
   07-deseq2/
 ```
-
-## Migration from eginquant
-
-Old command:
-
-```bash
-eginquant all -c config.yaml
-```
-
-New command:
-
-```bash
-hawcquant all -c config.yaml
-```
-
-Old Python import:
-
-```python
-import eginquant
-```
-
-New Python import:
-
-```python
-import hawcquant
-```
-
-If you are reusing an old `config.yaml`, replace the old `htseq:` block with the new `counting:` block or run:
-
-```bash
-hawcquant init-config -o config.new.yaml
-```
-
-and merge your sample/reference paths into the new template.
 
 ## fastp watchdog mode
 
