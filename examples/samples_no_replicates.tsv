@@ -1,0 +1,5 @@
+sample	condition	replicate	library	fq1	fq2
+2-1	2-1	1	target	data/reads/2-1-R1.fq.gz	data/reads/2-1-R2.fq.gz
+2-2	2-2	1	target	data/reads/2-2-R1.fq.gz	data/reads/2-2-R2.fq.gz
+2-3	2-3	1	mix	data/reads/2-3-R1.fq.gz	data/reads/2-3-R2.fq.gz
+2-4	2-4	1	mix	data/reads/2-4-R1.fq.gz	data/reads/2-4-R2.fq.gz

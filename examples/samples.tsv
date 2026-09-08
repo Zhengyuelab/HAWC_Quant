@@ -1,0 +1,13 @@
+sample	condition	replicate	library	fq1	fq2
+2-1-1	condition1	1	target	data/reads/2-1-1-R1.fq.gz	data/reads/2-1-1-R2.fq.gz
+2-1-2	condition1	2	target	data/reads/2-1-2-R1.fq.gz	data/reads/2-1-2-R2.fq.gz
+2-1-3	condition1	3	target	data/reads/2-1-3-R1.fq.gz	data/reads/2-1-3-R2.fq.gz
+2-2-1	condition2	1	target	data/reads/2-2-1-R1.fq.gz	data/reads/2-2-1-R2.fq.gz
+2-2-2	condition2	2	target	data/reads/2-2-2-R1.fq.gz	data/reads/2-2-2-R2.fq.gz
+2-2-3	condition2	3	target	data/reads/2-2-3-R1.fq.gz	data/reads/2-2-3-R2.fq.gz
+2-3-1	condition1	1	mix	data/reads/2-3-1-R1.fq.gz	data/reads/2-3-1-R2.fq.gz
+2-3-2	condition1	2	mix	data/reads/2-3-2-R1.fq.gz	data/reads/2-3-2-R2.fq.gz
+2-3-3	condition1	3	mix	data/reads/2-3-3-R1.fq.gz	data/reads/2-3-3-R2.fq.gz
+2-4-1	condition2	1	mix	data/reads/2-4-1-R1.fq.gz	data/reads/2-4-1-R2.fq.gz
+2-4-2	condition2	2	mix	data/reads/2-4-2-R1.fq.gz	data/reads/2-4-2-R2.fq.gz
+2-4-3	condition2	3	mix	data/reads/2-4-3-R1.fq.gz	data/reads/2-4-3-R2.fq.gz
