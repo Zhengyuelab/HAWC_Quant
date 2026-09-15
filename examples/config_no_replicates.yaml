@@ -1,5 +1,7 @@
 # Minimal HAWCQuant configuration for 4 groups x 1 sample design.
 # In this design, within-group replicate normalization is automatically skipped.
+# Between-group calibration via `normalization.calibration_edges` still applies.
+# See tests/test_*.py::test_no_replicate_groups_skip_within_group_normalization
 project:
   outdir: results_no_replicates
   threads: 16
