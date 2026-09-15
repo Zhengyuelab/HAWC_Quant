@@ -81,15 +81,12 @@ def cap_high_zscores(mat: pd.DataFrame, threshold: float = 3.0) -> pd.DataFrame:
     return out.fillna(mat)
 
 
-def cpm(counts: pd.DataFrame) -> pd.DataFrame:
-    lib = counts.sum(axis=0).replace(0, np.nan)
-    return counts.div(lib, axis=1) * 1e6
-
-
-def tpm(counts: pd.DataFrame, lengths: pd.Series) -> pd.DataFrame:
+def rpk(counts: pd.DataFrame, lengths: pd.Series) -> pd.DataFrame:
     common = counts.index.intersection(lengths.index)
     sub = counts.loc[common].astype(float)
     length_kb = lengths.loc[common].astype(float) / 1000.0
-    rpk = sub.div(length_kb, axis=0)
-    denom = rpk.sum(axis=0).replace(0, np.nan)
-    return rpk.div(denom, axis=1) * 1e6
+    if (length_kb <= 0).any():
+        bad = length_kb[length_kb <= 0].index[:5].tolist()
+        raise ValueError(f"Non-positive gene lengths found, e.g.: {bad}")
+    return sub.div(length_kb, axis=0)
+    
