@@ -17,9 +17,6 @@ dependencies:
   - orthofinder
   - diamond
   - blast
-  - bioconductor-deseq2
-  - r-base
-  - perl
   - pip
   - pip:
       - -e .
