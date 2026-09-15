@@ -2,7 +2,7 @@ from pathlib import Path
 import pandas as pd
 
 from hawcquant.normalization import proportional_fit
-from hawcquant.matrix import tpm, featurecounts_to_matrix
+from hawcquant.matrix import rpk, featurecounts_to_matrix
 from hawcquant.orthologs import normalize_search_backend
 
 
@@ -14,11 +14,33 @@ def test_proportional_fit_zero_intercept():
     assert abs(fit["r2"] - 1.0) < 1e-8
 
 
-def test_tpm_column_sums():
-    counts = pd.DataFrame({"s1": [100, 100], "s2": [50, 150]}, index=["g1", "g2"])
+def test_rpk_values():
+    counts = pd.DataFrame({"s1": [1000, 1000]}, index=["g1", "g2"])
     lengths = pd.Series({"g1": 1000, "g2": 2000})
-    out = tpm(counts, lengths)
-    assert all(abs(out.sum(axis=0) - 1_000_000) < 1e-6)
+    out = rpk(counts, lengths)
+    # RPK = count / (length / 1000)
+    assert abs(out.loc["g1", "s1"] - 1000.0) < 1e-8  # 1000 / 1 kb
+    assert abs(out.loc["g2", "s1"] - 500.0) < 1e-8   # 1000 / 2 kb
+
+
+def test_rpk_is_length_scaled_counts():
+    counts = pd.DataFrame({"s1": [100, 300], "s2": [200, 600]}, index=["g1", "g2"])
+    lengths = pd.Series({"g1": 1000, "g2": 3000})
+    out = rpk(counts, lengths)
+    # 同一基因在不同样本间的 RPK 比值应等于 count 比值
+    assert abs((out.loc["g2", "s1"] / out.loc["g1", "s1"]) - (300 / 100) / (3000 / 1000)) < 1e-8
+    # 同一基因不同样本 RPK 比值 = count 比值
+    assert abs((out.loc["g1", "s2"] / out.loc["g1", "s1"]) - 2.0) < 1e-8
+
+
+def test_rpk_rejects_nonpositive_lengths():
+    counts = pd.DataFrame({"s1": [100]}, index=["g1"])
+    lengths = pd.Series({"g1": 0})
+    try:
+        rpk(counts, lengths)
+        assert False, "expected ValueError for zero length"
+    except ValueError:
+        pass
 
 
 def test_featurecounts_to_matrix(tmp_path: Path):
@@ -39,6 +61,7 @@ def test_blastp_maps_to_blast():
     backend, tools = normalize_search_backend("blastp")
     assert backend == "blast"
     assert "blastp" in tools
+
 
 from hawcquant.normalization import run_count_calibration
 
@@ -89,6 +112,7 @@ def test_no_replicate_groups_skip_within_group_normalization(tmp_path: Path):
     assert "single-sample group" in target_status
     scaling = pd.read_json(tmp_path / "out" / "target_replicate_scaling" / "replicate_scaling.json", typ="series")
     assert len(scaling) == 0
+
 
 from hawcquant.config import Config
 from hawcquant.pipeline import Pipeline
