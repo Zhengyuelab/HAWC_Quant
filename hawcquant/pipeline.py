@@ -494,27 +494,12 @@ class Pipeline:
         return outputs["calibrated_counts"]
 
     def run_expression_units(self, calibrated_counts: Path, gene_lengths: Path) -> None:
-        if not self.cfg.raw.get("expression", {}).get("tpm_output", True) and not self.cfg.raw.get("expression", {}).get("cpm_output", True):
+        if not self.cfg.raw.get("expression", {}).get("rpk_output", True):
             return
         out = mkdir(self.outdir / "06-expression")
         counts = read_matrix(calibrated_counts)
-        if self.cfg.raw.get("expression", {}).get("cpm_output", True):
-            write_matrix(cpm(counts), out / "calibrated_CPM.tsv")
-        if self.cfg.raw.get("expression", {}).get("tpm_output", True):
-            lengths = pd.read_csv(gene_lengths, sep="\t").set_index("gene_id")["length"]
-            write_matrix(tpm(counts, lengths), out / "calibrated_TPM.tsv")
-
-    def run_deseq2(self, calibrated_counts: Path) -> None:
-        if not self.cfg.raw.get("deseq2", {}).get("enabled", False):
-            return
-        tool = self.cfg.raw["deseq2"].get("trinity_run_DE_analysis", "run_DE_analysis.pl")
-        require_tools([tool])
-        out = mkdir(self.outdir / "07-deseq2")
-        samples = self.cfg.samples[["condition", "sample"]].drop_duplicates()
-        samples_file = out / "samples_described.txt"
-        samples.to_csv(samples_file, sep="\t", header=False, index=False)
-        shutil.copy2(calibrated_counts, out / "raw_counts.matrix")
-        run_cmd([tool, "--matrix", str(out / "raw_counts.matrix"), "--method", "DESeq2", "--samples_file", str(samples_file)], self.log, cwd=out, stream=False, log_path=self.logs_dir / "deseq2.log")
+        lengths = pd.read_csv(gene_lengths, sep="\t").set_index("gene_id")["length"]
+        write_matrix(rpk(counts, lengths), out / "calibrated_RPK.tsv")
 
     def run_all(self) -> None:
         refs = self.prepare_references()
@@ -524,5 +509,5 @@ class Pipeline:
         unique = self.run_orthologs(refs["gene_protein"])
         calibrated = self.run_normalization(raw, unique)
         self.run_expression_units(calibrated, refs["gene_lengths"])
-        self.run_deseq2(calibrated)
-        self.log.info("HAWCQuant pipeline completed. Results: %s", self.outdir)
+        self.log.info("HAWCQuant pipeline completed. Results: %s", self.outdir
+        
