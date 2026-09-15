@@ -185,12 +185,5 @@ normalization:
 
 expression:
   length_source: gtf
-  tpm_output: true
-  cpm_output: true
+  rpk_output: true
 
-deseq2:
-  enabled: false
-  contrasts: examples/contrasts.tsv
-  trinity_run_DE_analysis: run_DE_analysis.pl
-"""
-    Path(path).write_text(template)
