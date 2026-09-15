@@ -1,9 +1,12 @@
 # HAWCQuant
 
-HAWCQuant is a one-stop, configuration-driven workflow for quantitative transcriptome calibration in experiments that contain target-species RNA-seq libraries and target-plus-reference mixed RNA-seq libraries.
+HAWC-Quant is a one-stop, configuration-driven workflow for quantitative transcriptome calibration in experiments that contain target-species RNA-seq libraries and target-plus-reference mixed RNA-seq libraries.It consists of a wet-laboratory module and a computational module.
 
-The workflow supports quality control with fastp, alignment with bowtie2, optional PCR duplicate removal with samtools, gene-level counting with either htseq-count or featureCounts, species-specific gene discovery with OrthoFinder using either DIAMOND or BLASTP-style search, slope-based count calibration, CPM/TPM-like expression normalization, and optional DESeq2 differential analysis.
+In the wet-laboratory module, independently cultured reference cells are counted and added to the target cells ( or target microbial community) before RNA extraction. Four-group benchmark are needed. G1 contained target-only cells under control conditions, G2 contained target-only cells under salinity stress, G3 contained target plus reference cells under control conditions and G4 contained target plus reference cells under salinity stress.
 
+In the computational module, reads are quality controlled, aligned to a combined reference genome, counted at gene level and filtered to remove genes with detectable target-reference homology. Species-specific marker genes are then used to estimate sample-scaling coefficients. “Cell-anchored” abundance refers to relative transcript abundance that has been scaled to a fixed number of reference cells spiked into each sample.
+
+HAWC-Quant supports quality control with fastp, alignment with bowtie2, optional PCR duplicate removal with samtools, gene-level counting with either htseq-count or featureCounts, species-specific gene discovery with OrthoFinder using either DIAMOND or BLASTP-style search. The final output is a calibrated count matrix and a calibrated RPK matrix, supporting subsequent personalized analysis.
 
 ## Installation
 
@@ -113,7 +116,7 @@ Strandedness for featureCounts uses numeric values:
 
 ## Config: replicated or no-replicate designs
 
-HAWCQuant no longer assumes that each group has three replicates. The same normalization module supports either design.
+HAWC-Quant supports either three replicates per group or no replicates per group; this standardization module is compatible with any experimental design.
 
 For standard replicated designs, keep `replicate_normalization.enabled: auto`; HAWCQuant will normalize within each group that contains two or more samples:
 
@@ -214,9 +217,7 @@ results/
     all_counts.calibrated.tsv
     calibration/calibration_coefficients.json
   06-expression/
-    calibrated_CPM.tsv
-    calibrated_TPM.tsv
-  07-deseq2/
+    calibrated_RPK.tsv
 ```
 
 ## fastp watchdog mode
