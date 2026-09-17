@@ -8,6 +8,8 @@ In the computational module, reads are quality controlled, aligned to a combined
 
 HAWC-Quant supports quality control with fastp, alignment with bowtie2, optional PCR duplicate removal with samtools, gene-level counting with either htseq-count or featureCounts, species-specific gene discovery with OrthoFinder using either DIAMOND or BLASTP-style search. The final output is a calibrated count matrix and a calibrated RPK matrix, supporting subsequent personalized analysis.
 
+<img width="10000" height="6438" alt="Fig1" src="https://github.com/user-attachments/assets/f114a28c-6fe0-4c21-bc4b-dbe3c2460ee4" />
+
 ## Installation
 
 ```bash
