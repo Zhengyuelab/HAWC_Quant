@@ -12,7 +12,7 @@ import pandas as pd
 from .config import Config
 from .utils import mkdir, run_cmd, require_tools
 from .annotation import gff_to_gtf, combine_files, extract_gene_protein_map, gene_lengths_from_gtf
-from .matrix import htseq_to_matrix, featurecounts_to_matrix, read_matrix, write_matrix, cpm, tpm
+from .matrix import htseq_to_matrix, featurecounts_to_matrix, read_matrix, write_matrix, rpk
 from .orthologs import run_orthofinder, extract_species_unique_genes, normalize_search_backend
 from .normalization import run_count_calibration
 
