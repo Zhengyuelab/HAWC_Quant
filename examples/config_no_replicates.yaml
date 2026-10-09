@@ -9,13 +9,13 @@ project:
 samples: examples/samples_no_replicates.tsv
 
 references:
-  target_name: LW13
+  target_name: env
   reference_name: Ecoli
-  target_genome: data/ref/LW13/genome.fna
+  target_genome: data/ref/env/genome.fna
   reference_genome: data/ref/Ecoli/genome.fna
-  target_gff: data/ref/LW13/genomic.gff
+  target_gff: data/ref/env/genomic.gff
   reference_gff: data/ref/Ecoli/genomic.gff
-  target_protein_faa: data/ref/LW13/protein.faa
+  target_protein_faa: data/ref/env/protein.faa
   reference_protein_faa: data/ref/Ecoli/protein.faa
 
 fastp:
@@ -73,10 +73,10 @@ orthofinder:
   threads: 16
   species_order:
     - Ecoli
-    - LW13
+    - env
 
 normalization:
-  target_species: LW13
+  target_species: env
   reference_species: Ecoli
   unique_min_count: 10
   z_threshold: 3
